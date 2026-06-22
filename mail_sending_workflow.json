@@ -1,0 +1,53 @@
+{
+  "name": "Mail Sending Workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "e8fb2c26-f404-4cc4-8e31-8e5d0b4dc15c",
+      "name": "Receive Mail Request via Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "webhookId": "mail-trigger-id"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "subject": "={{ $json.query.subject || 'Hello from n8n' }}",
+        "message": "={{ $json.query.body || 'This is a test email.' }}",
+        "toList": [
+          "={{ $json.query.to }}"
+        ]
+      },
+      "id": "a1b2c3d4-e5f6-4a5b-8c7d-9e0f1a2b3c4d",
+      "name": "Send Email via Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        450,
+        300
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Receive Mail Request via Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send Email via Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "1"
+}
